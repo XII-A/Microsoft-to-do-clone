@@ -35,7 +35,7 @@ function App() {
         </Menu>
         <div className="content">
           <Switch>
-            <Route  path="/Home">
+            <Route exact path="/Microsoft-to-do-clone/">
               <Home userEmail = {userEmail} setUserEmail = {setUserEmail} username = {username} setUserName = {setUserName}>
                 
               </Home>
