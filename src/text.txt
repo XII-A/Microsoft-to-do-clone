@@ -1,0 +1,25 @@
+const [renameList, setrenameList] = useState(false);
+const [newName , setnewName] = useState('');
+
+
+    const handleOnInput = (e) => {
+        setnewName(e.target.value);
+    };
+
+
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        if (inputVal != -"") {
+            const newData = data.map((c,i) =>{
+                if (i == index){
+                    c = newName
+                    return c
+                }
+            })
+          setData(newData);
+          setnewName("");
+          setrenameList(false);
+        
+    };
