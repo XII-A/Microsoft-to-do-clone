@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/Microsoft-to-do-clone/static/css/main.e0ff20f0.css",
+    "main.js": "/Microsoft-to-do-clone/static/js/main.d4618e45.js",
+    "static/js/787.83d2e6e7.chunk.js": "/Microsoft-to-do-clone/static/js/787.83d2e6e7.chunk.js",
+    "index.html": "/Microsoft-to-do-clone/index.html",
+    "main.e0ff20f0.css.map": "/Microsoft-to-do-clone/static/css/main.e0ff20f0.css.map",
+    "main.d4618e45.js.map": "/Microsoft-to-do-clone/static/js/main.d4618e45.js.map",
+    "787.83d2e6e7.chunk.js.map": "/Microsoft-to-do-clone/static/js/787.83d2e6e7.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e0ff20f0.css",
+    "static/js/main.d4618e45.js"
+  ]
+}
