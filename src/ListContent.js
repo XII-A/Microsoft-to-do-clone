@@ -469,7 +469,7 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
-  
+  /* justify-content: flex-end; */
   
   /* justify-content: space-between; */
   /* background-color: Blue; */
@@ -681,7 +681,9 @@ const Task = styled.div`
 const AddTaskContainer = styled.div`
     display: flex;
     flex-direction: column;
-    margin-top: 16px;
+    /* justify-self: flex-end; */
+    margin-top: auto;
+    margin-bottom: 8px;
     margin-right: 28px;
 
   
