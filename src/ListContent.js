@@ -216,7 +216,9 @@ const handleCTasksOut = ()=>{
     setnewName(e.target.value);
   };
 
-
+  const handleonBlur = (e) =>{
+    setrenameList(false);
+}
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -365,6 +367,7 @@ const handleTaskSubmit = (e)=> {
                 value={newName}
                 maxlength="15"
                 onChange={handleOnInput}
+                onBlur={handleonBlur}
               />
             </form>
           )}
