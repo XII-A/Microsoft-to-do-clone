@@ -218,7 +218,10 @@ const handleCTasksOut = ()=>{
 
   const handleonBlur = (e) =>{
     setrenameList(false);
-}
+  };
+  const handleonBlurv2 = (e) =>{
+    setclicked(false)
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -459,6 +462,7 @@ const handleTaskSubmit = (e)=> {
                 placeholder="Add a task"
                 value={taskInput}
                 onChange={handleOnTaskInput}
+                onBlur={handleonBlurv2}
               />
             </form>
           </InputName>
