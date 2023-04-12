@@ -35,7 +35,7 @@ const DropdownMenu = ({setrenameList,handlePinToStart, handleDuplicate, handleDe
                 </li>
 
                 <li className="Menu-Item" 
-                onClick={() => {navigator.clipboard.writeText(`http://localhost:3000/${name}/${index}`)
+                onClick={() => {navigator.clipboard.writeText(`https://xii-a.github.io/${name}/${index}`)
                                 toast.success('Link copied to clipboard', {
                                     position: "top-right",
                                     autoClose: 1100,
