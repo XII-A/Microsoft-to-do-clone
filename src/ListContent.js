@@ -425,7 +425,7 @@ const handleTaskSubmit = (e)=> {
                   <Container>
                     <Task className="display tasks none">
                       <BsCheck2Square className="icon-in-task"></BsCheck2Square>
-                      <div className="text-in-task">{item}</div>
+                      <div className="text-in-task"><s>{item}</s></div>
                     </Task>
                   </Container>
                 );
