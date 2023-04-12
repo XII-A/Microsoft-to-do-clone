@@ -78,6 +78,9 @@ const Menu = ({
     setclicked(true);
     console.log(isclicked);
   };
+  const handleonBlur = (e) =>{
+      setclicked(false);
+  }
   const handleSubmit = (e) => {
     e.preventDefault();
     if (inputVal != "" && !data.includes(inputVal)) {
@@ -180,6 +183,7 @@ const Menu = ({
               value={inputVal}
               maxlength="15"
               onChange={handleOnInput}
+              onBlur={handleonBlur}
             />
           </form>
         </InputName>
