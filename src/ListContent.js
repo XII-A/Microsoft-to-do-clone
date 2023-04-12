@@ -272,8 +272,12 @@ const handleCTasksOut = ()=>{
 
   const handleDuplicate = (index) => {
     let temp = data.filter( (item,ind) => index == ind);
+    let new_element = temp[0] + ' copy';
+    while (data.includes(new_element)){
+      new_element += ' copy'
+    }
     setData((prev) => {
-      return [...prev, temp[0] + ' copy']
+      return [...prev, new_element]
     })
   }
 
