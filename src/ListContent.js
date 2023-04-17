@@ -57,6 +57,8 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
   
   const [isclicked, setclicked] = useState(false); 
   const [taskInput, setTaskInput] = useState("");
+
+  const [cTaskTog, setcTaskTog] = useState(false);
   
   const handleClick = (e) => {
     setclicked(true);
@@ -155,7 +157,32 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
 
   },[funCalled])
 //-------------------------------------------------------------------------------------------
+// make a task uncomplete again
 
+  const makeUncomplete = (indexoftask) =>{
+    let newTaskList = tasks.slice();//so react would see it as a change in state
+    let changeIndex = currentTaskList()
+    for (let index = 0; index < tasks.length; index++) {
+      if(index != changeIndex){
+      }else{
+        console.log('index of task is =>')
+        console.log(indexoftask)
+        const x = newTaskList[changeIndex].cTasks.splice(indexoftask,1);
+        console.log(x)
+        const text = x[0]; //The reason for [0] is so js wouldnt consider it undefined -- I hate js so much 
+        console.log(text);
+        let newObj = 
+        {
+          text: text,
+          hover: false
+        };
+        newTaskList[changeIndex].uncTasks.push(newObj);
+
+        
+      }
+    }
+    setTasks(newTaskList);
+  }
 
 //Handling task modification from uncomplete list to complete list-----------------------------------
   const handleTaskClick = (indexoftask) => {
@@ -183,21 +210,23 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
 
 //The complete button-------------------------------------------------------------
   const handleCTasks = () =>{
-
-    let state = menuopen;
-    setMenuOpen(!state);
-    let elements = document.getElementsByClassName("display");
-    for (let index = 0; index < elements.length; index++) {
-      const item = elements[index];
-      item.classList.toggle('none');
+    setcTaskTog((prev) =>{
+      return !prev;
+    })
+    // let state = menuopen;
+    // setMenuOpen(!state);
+    // let elements = document.getElementsByClassName("display");
+    // for (let index = 0; index < elements.length; index++) {
+    //   const item = elements[index];
+    //   item.classList.toggle('none');
       
-    }
-    elements = document.getElementsByClassName("icon");
-    for (let index = 0; index < elements.length; index++) {
-      const item = elements[index];
-      item.classList.toggle('none');
+    // }
+    // let elements = document.getElementsByClassName("icon");
+    // for (let index = 0; index < elements.length; index++) {
+    //   const item = elements[index];
+    //   item.classList.toggle('none');
       
-    }
+    // }
 
   }
 // to close the complete list when a change happens
@@ -403,7 +432,7 @@ const handleTaskSubmit = (e)=> {
                       onClick = {() => {
                         // handleCTasksOut()
                         handleTaskClick(index)
-                        handleCTasksOut()
+                        // handleCTasksOut()
                     
                         }}
                       onMouseEnter = {() => {onMouseEnter(item)}}
@@ -417,30 +446,32 @@ const handleTaskSubmit = (e)=> {
                         item.hover &&
                         <BsCheck2Square className="icon-in-task1"></BsCheck2Square>
                       }
-                    <div className="text-in-task">{item.text}</div>
+                    <div className="text-in-task"><p>{item.text}</p></div>
                   </Task>);
                 
               })
             }
-            {
-              tasks[currentTaskList()].cTasks && 
-              [
-                <TogList onClick = {handleCTasks}>
-                  <MdOutlineKeyboardArrowRight className="icon"></MdOutlineKeyboardArrowRight>
-                  <MdOutlineKeyboardArrowDown className="display none"></MdOutlineKeyboardArrowDown>
-                    Completed
-                </TogList>,
-              tasks[currentTaskList()].cTasks.map(item =>{
+            <TogList onClick = {handleCTasks}>
+              {!cTaskTog && <MdOutlineKeyboardArrowRight className="icon"></MdOutlineKeyboardArrowRight>}
+              { cTaskTog && <MdOutlineKeyboardArrowDown className="display"></MdOutlineKeyboardArrowDown>}
+                Completed
+            </TogList>
+            {cTaskTog &&
+              tasks[currentTaskList()].cTasks.map((item,index) =>{
                 return (
                   <Container>
-                    <Task className="display tasks none">
+                    <Task className="display tasks" 
+                        onClick={() => {
+                          makeUncomplete(index)
+                          handleCTasksOut()
+                    }}>
                       <BsCheck2Square className="icon-in-task"></BsCheck2Square>
                       <div className="text-in-task"><s>{item}</s></div>
                     </Task>
                   </Container>
                 );
               
-            })]
+            })
             
             }
       </Tasks>
@@ -639,16 +670,38 @@ const Task = styled.div`
   /* background-color: blue; */
   width: 100%;
   min-height: 52px;
-  max-height: 52px;
+  /* max-height: 52px; */
   font-size: 18px;
   font-weight: 350;
   align-items: center;
   background: rgba(78, 78, 78, 0.5);
   border-radius: 5px;
   margin-top: 8px;
+  overflow: auto;
+  /* overflow-wrap: break-word; */
   
-  
-  
+  /* white-space:normal; */
+  /* word-break: break-all; */
+  /* word-wrap: break-word;  */
+  /* word-break: brea/k-word; */
+  ::-webkit-scrollbar {
+    width: 8px;
+    /* margin: 4px 0px; */
+    /* padding: 4px 0px; */
+    /* height: 8px; */
+  }
+
+  ::-webkit-scrollbar-track {
+    border-radius: 8px;
+    /* background-color: #292929; */
+  }
+
+  ::-webkit-scrollbar-thumb {
+    border-radius: 8px;
+    border: 3px solid transparent;
+    background-clip: content-box;
+    background-color: #a0a0a0;
+  }
   
   color: rgb(240,255,240,0.9);
 
@@ -657,8 +710,13 @@ const Task = styled.div`
     
   }
   .text-in-task{
+    /* align-self: auto; */
+    line-height: 100%;
     margin: 0px 4px;
     
+    /* word-break: break-all; */
+
+    /* overflow: hidden; */  
 
     
     /* line-height: 200%; */
@@ -666,12 +724,15 @@ const Task = styled.div`
   .icon-in-task{
     /* line-height: 100%; */
     font-size: 22px;
+    min-width: fit-content; // this made it so the icon size wouldnt change when there is a lot of text
+    /* padding: 0 50px; */
     color: rgb(240,255,240,0.7);
     /* font-weight: 1000; */
     margin-left: 8px;
     margin-right: 1px; //so when changing the icon the text wouldnt go to the right
+    /* box-sizing: inherit; */
     /* font-weight: 900; */
-    /* z-index: 0; */
+    /* font-size: 5dvw; */
   }
   .icon-in-task1{
     /* line-height: 100%; */
@@ -679,6 +740,8 @@ const Task = styled.div`
     color: rgb(240,255,240,0.7);
     /* font-weight: 1000; */
     margin-left: 8px;
+    min-width: fit-content;
+
     /* font-weight: 900; */
     /* z-index: 1; */
   }
