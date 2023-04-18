@@ -333,16 +333,16 @@ const handleCTasksOut = ()=>{
  const onMouseEnter = (item) =>{
   console.log(item)
   console.log('prev ' + item.hover);
-  let prevState = item.hover;
-  item.hover = !prevState;
+  // let prevState = item.hover;
+  item.hover = true;
   console.log('now ' + item.hover);
   setFunCalled(true);
  }
  
  const onMouseLeave = (item) =>{
   console.log('prev ' + item.hover);
-  let prevState = item.hover;
-  item.hover = !prevState;
+  // let prevState = item.hover;
+  item.hover = false;
   console.log('now ' + item.hover);
   setFunCalled(false);
  }
@@ -435,8 +435,8 @@ const handleTaskSubmit = (e)=> {
                         // handleCTasksOut()
                     
                         }}
-                      onMouseEnter = {() => {onMouseEnter(item)}}
-                      onMouseLeave = {() => {onMouseLeave(item)}}
+                      onMouseOver = {() => {onMouseEnter(item)}}
+                      onMouseOut = {() => {onMouseLeave(item)}}
                     >
                       {
                         !item.hover &&
