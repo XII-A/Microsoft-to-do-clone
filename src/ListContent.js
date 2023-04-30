@@ -9,11 +9,12 @@ import { BsCheck2Square,BsPlusSquare } from "react-icons/bs";
 import { toast } from 'react-toastify';
 import { MdOutlineKeyboardArrowRight,MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { AiOutlinePlus } from "react-icons/ai";
+const defaultColor = "#bdbdbd";
+
 const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
   const history = useHistory();
-
   let { name, index } = useParams();
-
+  
   
 
   const months = [
@@ -99,7 +100,8 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
 
         ],
         cTasks:["this is the 1'st task you have done","this is the 2'nd task you have done"],
-        
+        color: defaultColor
+
           
       }
       tasksList.push(taskElement);
@@ -129,7 +131,8 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
             },
 
           ],
-          cTasks:["this is the 1'st task you have done","this is the 2'nd task you have done"]
+          cTasks:["this is the 1'st task you have done","this is the 2'nd task you have done"],
+          color: defaultColor
         }
         newTaskList.push(taskElement)
       }
@@ -329,6 +332,14 @@ const handleCTasksOut = ()=>{
     
 
   };
+
+  const handleColorChange = (newColor) =>{
+    // tasks[currentTaskList()].color
+    let newTaskList = tasks.slice();//so react would see it as a change in state
+    let changeIndex = currentTaskList()
+    newTaskList[changeIndex].color = newColor;
+    setTasks(newTaskList);
+  }
 //---------------------------------------------------------------------------------
  const onMouseEnter = (item) =>{
   console.log(item)
@@ -385,7 +396,7 @@ const handleTaskSubmit = (e)=> {
 
     <Content>
       {/* rendering the nav bar with the menu button */}
-      <NavHeader>
+      <NavHeader theme={tasks[currentTaskList()].color}>
         <div className="listProp">
           {!renameList && (
             <div className="listName">{`${name.split("-").join(" ")}`}</div>
@@ -416,7 +427,7 @@ const handleTaskSubmit = (e)=> {
 
         {openMenu && (
           <div className="Drop-Menu">
-            <DropdownMenu setrenameList={setrenameList} handlePinToStart = {handlePinToStart} handleDuplicate = {handleDuplicate} handleDelete = {handleDelete} ></DropdownMenu>
+            <DropdownMenu setrenameList={setrenameList} handlePinToStart = {handlePinToStart} handleDuplicate = {handleDuplicate} handleDelete = {handleDelete} handleColorChange = {handleColorChange}  ></DropdownMenu>
           </div>
         )}
 
@@ -516,7 +527,7 @@ const Content = styled.div`
   /* justify-content: space-between; */
   /* background-color: Blue; */
   /* width: 220px; */
-  color: #bdbdbd;
+  color: ${defaultColor};
   /* padding: 0px 4px; */
 `;
 
@@ -526,7 +537,7 @@ const NavHeader = styled.div`
   flex-direction: column;
   justify-content: space-between;
   /* background-color: #292929; */
-  color: #bdbdbd;
+  color: ${(props) => props.theme};
   padding: 0px 4px;
   /* background-color: red; */
   .newName-input {
