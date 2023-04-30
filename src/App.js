@@ -27,7 +27,7 @@ function App() {
   const [userEmail,setUserEmail] = useState('jackwaterson@gmail.com');
 
   return (
-    <Router>
+    <Router basename="/Microsoft-to-do-clone">
 
       <div className="grid-container">
         <Menu data = {data} setData = {setData} filteredData = {filteredData} setFilteredData = {setFilteredData} paramindex = {paramindex} setParamindex = {setParamindex} username = {username} userEmail = {userEmail}>
