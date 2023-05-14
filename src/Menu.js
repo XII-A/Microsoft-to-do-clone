@@ -4,8 +4,9 @@ import { useHistory, useParams } from "react-router-dom";
 import { BsCircle } from "react-icons/bs";
 import { BsList } from "react-icons/bs";
 import { AiOutlinePlus } from "react-icons/ai";
-import styled from "styled-components";
+import styled, {keyframes} from "styled-components";
 import { toast } from 'react-toastify';
+
 const Menu = ({
   data,
   setData,
@@ -15,7 +16,10 @@ const Menu = ({
   setParamindex,
   username,
   userEmail,
+  openMenu,
+  setopenMemu
 }) => {
+
   const [searchVal, setsearchVal] = useState("");
 
   const [inputVal, setinputVal] = useState("");
@@ -23,9 +27,16 @@ const Menu = ({
 
   // let { name, paramindex } = useParams();
   // const [paramindex, setParamindex] = useState(null);
+  // Close the dropdown menu if the user clicks outside of it-------------------------
+
+//-----------------------------------------------------------------------------------
 
   const changeIndex = (index) => {
     setParamindex(index);
+    if (openMenu.includes('flex')) {
+      setopenMemu('none')
+      console.log('i am none now')
+    }
     // console.log(`${paramindex} wtf`);
   };
 
@@ -118,13 +129,13 @@ const Menu = ({
   };
 
   return (
-    <Content>
+    <Content theme={openMenu}>
       <MainContent>
         <NavHeader className="nav-header">
           <BsCircle size={40} style={{ marginInlineEnd: 12 }} className="userIcon" />
           <div className="userContainer">
-            <div className="username">{username}</div>
-            <div className="email">{userEmail}</div>
+          <div className="username" title = {username}>{username}</div>
+            <div className="email" title = {userEmail}>{userEmail}</div>
           </div>
 
         </NavHeader>
@@ -202,6 +213,23 @@ const Content = styled.div`
   width: 220px;
   color: #bdbdbd;
   padding: 0px 4px;
+  @media (max-width: 700px) {
+    /* flex-direction: ; */
+    /* transform: translate(-100%); */
+
+    /* transition: all 2s; */
+    display: ${(props) => props.theme};
+    animation: imganim 0.5s both;
+    /* width: fit-content; */
+    /* z-index: 10; */
+    /* transform: translate(0%); */
+
+  }
+  @keyframes imganim {
+    from {width: 0px;}
+    to {width: 220px;} 
+  }
+
 `;
 const MainContent = styled.div`
   display: flex;
@@ -232,7 +260,8 @@ const NavHeader = styled.div`
   align-items: center;
   
   .userIcon{
-    padding-top: 2px;    
+    padding-top: 2px;  
+    flex-shrink:0 ;
   }
   .userContainer{
     display: flex;
@@ -241,9 +270,22 @@ const NavHeader = styled.div`
     .username {
     font-size: 18px;
     font-weight: 500;
+    width: 170px;
+    /* height: 50px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden; /* keeps the element from overflowing its parent */
+    /* overflow: ; */
     }
     .email{
       font-size: 12px;
+      width: 170px;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden; /* keeps the element from overflowing its parent */
+      /* overflow: auto; */
+    
+      
     }
     
 
@@ -365,6 +407,9 @@ const InputName = styled.div`
 
     border: transparent;
     color: #9f9f9f;
+  }
+  .icon{
+    flex-shrink: 0;
   }
   .listName-input:focus-visible {
     outline: none;

@@ -8,7 +8,7 @@ import { useHistory, useParams } from "react-router-dom";
 const Home = ({userEmail , setUserEmail , username , setUserName}) => {
     const [usernameInput, setusernameInput] = useState('');
     const [emailInput, setemailInput] = useState('');
-    const history  = useHistory();
+    const history = useHistory();
 
     const handleuserOnChange = (e) =>{
         setusernameInput(e.target.value);
@@ -78,7 +78,6 @@ const Home = ({userEmail , setUserEmail , username , setUserName}) => {
                     />
                     <div className="label">EMAIL:</div>
                     <input
-                    autoFocus
                     type="email"
                     className="usernameInput"
                     placeholder="example@company.com"
@@ -107,6 +106,12 @@ const Container = styled.div`
     /* justify-content: center; */
     color: #bdbdbd;
 
+    @media (max-width: 700px) {
+    /* flex-direction: column; */
+        /* margin: auto; */
+        /* background-color: red; */
+    }
+
 `;
 
 const MainFrame = styled.div`
@@ -114,7 +119,7 @@ const MainFrame = styled.div`
     flex-direction: column;
     background-color: rgba(41, 41, 41);
     align-items: center;
-    height: 52vh;
+    height: 495px;
     width: 30vw;
     border-radius: 4px;
     box-shadow: 4px 4px 32px 0px rgba(0, 0, 0, 0.7);
@@ -142,7 +147,15 @@ const MainFrame = styled.div`
     .usernameInput:focus-visible {
         outline: none;
     }
-    
+    @media (max-width: 700px) {
+        width: 320px;
+        height: 520px; 
+        margin-top: 120px;
+        /* margin-bottom: ; */
+    /* flex-direction: column; */
+        /* margin: auto; */
+        /* background-color: red; */
+    }
 `;
 
 const LoginText = styled.h1`
@@ -169,4 +182,8 @@ const Button = styled.button`
   outline: 1px solid rgba(255,255,255,0.2);
   border: 2px solid #1C1C1C;
   cursor: pointer;
+  @media (max-width: 700px) {
+    margin-left: auto;
+    margin-right: auto;
+  }
 `;

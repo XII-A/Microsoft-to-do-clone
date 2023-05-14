@@ -6,6 +6,7 @@ import Home from './Home';
 import ListContent from './ListContent';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
+
 function App() {
 
   
@@ -20,7 +21,7 @@ function App() {
 
   
   const [filteredData, setFilteredData] = useState(data);
-
+  const [openMenu,setopenMemu] = useState('none');
   const [paramindex, setParamindex] = useState(null);
 
   const [username,setUserName] = useState('Jack Waterson');
@@ -30,7 +31,7 @@ function App() {
     <Router basename="/Microsoft-to-do-clone">
 
       <div className="grid-container">
-        <Menu data = {data} setData = {setData} filteredData = {filteredData} setFilteredData = {setFilteredData} paramindex = {paramindex} setParamindex = {setParamindex} username = {username} userEmail = {userEmail}>
+        <Menu data = {data} setData = {setData} filteredData = {filteredData} setFilteredData = {setFilteredData} paramindex = {paramindex} setParamindex = {setParamindex} username = {username} userEmail = {userEmail} openMenu = {openMenu} setopenMemu = {setopenMemu}>
 
         </Menu>
         <div className="content">
@@ -41,7 +42,7 @@ function App() {
               </Home>
             </Route>
             <Route path="/:name/:index">
-              <ListContent data = {data} setData = {setData} paramindex = {paramindex} setParamindex = {setParamindex}></ListContent>
+              <ListContent data = {data} setData = {setData} paramindex = {paramindex} setParamindex = {setParamindex} sideBar = {openMenu} setSideBar = {setopenMemu}></ListContent>
             </Route>
               
           </Switch>

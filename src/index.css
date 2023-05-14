@@ -18,6 +18,17 @@ code {
   grid-template-columns: 1fr 7fr;
   column-gap: 28px;
 }
+@media all and (max-width: 700px){
+  .grid-container {
+    /* display: grid; */
+    grid-template-columns: 1fr;
+    /* grid-template-rows: 1fr 1fr; */
+    /* column-gap: 0px; */
+    column-gap: 0px;
+  }
+
+}
+
 nav {
   /* padding: 30px; */
   border-right: 1px solid #ddd;

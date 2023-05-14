@@ -9,12 +9,16 @@ import { BsCheck2Square,BsPlusSquare } from "react-icons/bs";
 import { toast } from 'react-toastify';
 import { MdOutlineKeyboardArrowRight,MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { AiOutlinePlus } from "react-icons/ai";
-const defaultColor = "#bdbdbd";
+import { IoIosArrowForward } from "react-icons/io";
+// import { BsList } from "react-icons/bs";
 
-const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
+const defaultColor = "#bdbdbd";
+var width = window.innerWidth;
+
+const ListContent = ({ data, setData ,paramindex,setParamindex,sideBar,setSideBar}) => {
   const history = useHistory();
   let { name, index } = useParams();
-  
+  const [showList,setShowList] = useState('flex');
   
 
   const months = [
@@ -70,7 +74,13 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
     setTaskInput(e.target.value);
   };
 
-
+  const handleSideBar = () =>{
+    if (sideBar.includes('none')) {
+      setSideBar('flex')
+      console.log('i am flex now')
+    }
+    setShowList('none')
+  }
 
   //----------------------------------------------------
   const [menuopen, setMenuOpen] = useState(false);
@@ -140,6 +150,15 @@ const ListContent = ({ data, setData ,paramindex,setParamindex}) => {
     setTasks(newTaskList);
   }, [data])
 
+  useEffect(() => {
+    if (sideBar.includes('none')) {
+      setShowList('flex');
+    }
+  
+    
+  }, [sideBar])
+  
+  
 
   // function to find what list of tasks we are in
   const currentTaskList = () =>{
@@ -390,13 +409,36 @@ const handleTaskSubmit = (e)=> {
 }
 
 
+
+const handleArrayLength = (num1, num2) => {
+  var w = window.innerWidth;
+  let lineNum = 9
+  if (w > 700) {
+    lineNum = 12
+  }else{
+    lineNum = 8
+  }
+  if((lineNum - num1 - num2) >= 0){
+    return (lineNum - num1 - num2)
+  }else{
+    return 0
+  }
+}
 // This arrangement can be altered based on how we want the date's format to appear.
   let currentDate = `${day}, ${month} ${date.getDate()}`;
   return (
 
-    <Content>
-      {/* rendering the nav bar with the menu button */}
+    <Content theme={showList}>
+      
+      <button
+        className="menu-button"
+        id="1"
+        onClick={handleSideBar}
+      >
+        <IoIosArrowForward className="icon" id="5" size={24} />
+      </button>
       <NavHeader theme={tasks[currentTaskList()].color}>
+        
         <div className="listProp">
           {!renameList && (
             <div className="listName">{`${name.split("-").join(" ")}`}</div>
@@ -448,6 +490,7 @@ const handleTaskSubmit = (e)=> {
                         }}
                       onMouseOver = {() => {onMouseEnter(item)}}
                       onMouseOut = {() => {onMouseLeave(item)}}
+                      title= {item.text} 
                     >
                       {
                         !item.hover &&
@@ -457,7 +500,7 @@ const handleTaskSubmit = (e)=> {
                         item.hover &&
                         <BsCheck2Square className="icon-in-task1"></BsCheck2Square>
                       }
-                    <div className="text-in-task"><p>{item.text}</p></div>
+                    <div className="text-in-task">{item.text}</div>
                   </Task>);
                 
               })
@@ -485,7 +528,45 @@ const handleTaskSubmit = (e)=> {
             })
             
             }
+            {
+              cTaskTog &&
+              Array(handleArrayLength(tasks[currentTaskList()].cTasks.length,tasks[currentTaskList()].uncTasks.length)).fill(1).map((el) =>{
+                return(
+                <hr
+                style={{
+                  background: 'rgba(121, 121, 121, 0.1)',
+                  color: 'rgba(121, 121, 121, 0.1)',
+                  borderColor: 'rgba(121, 121, 121, 0.1)',
+                  width: '99%',
+                  marginTop: '24px',
+                  marginBottom: '24px',
+                }}
+              />
+                )
+              })
+            }
+            {
+              !cTaskTog &&
+              Array(handleArrayLength(0,tasks[currentTaskList()].uncTasks.length)).fill(1).map((el) =>{
+                return(
+                <hr
+                style={{
+                  background: 'rgba(121, 121, 121, 0.1)',
+                  color: 'rgba(121, 121, 121, 0.1)',
+                  borderColor: 'rgba(121, 121, 121, 0.1)',
+                  width: '99%',
+                  marginTop: '24px',
+                  marginBottom: '24px',
+
+                }}
+              />
+                )
+              })
+            }
+
       </Tasks>
+
+
       <AddTaskContainer>
         {!isclicked &&
           <Addtask onClick={handleClick}>
@@ -510,6 +591,7 @@ const handleTaskSubmit = (e)=> {
           </InputName>
         
         }
+        
       </AddTaskContainer>
 
     </Content>
@@ -529,7 +611,36 @@ const Content = styled.div`
   /* width: 220px; */
   color: ${defaultColor};
   /* padding: 0px 4px; */
+  .menu-button{
+      display: none;
+      color: inherit;
+      background-color: transparent;
+      border: none;
+      align-self: flex-start;
+      margin-top: 6px;
+      margin-left: 12px;
+      padding: 2px;
+      width: fit-content;
+      /* font-weight: 100; */
+      :hover {
+        background-color: rgba(121, 121, 121, 0.3);
+        border-radius: 2px;
+      }
+      .icon {
+        pointer-events: none;
+      }
+      @media all and (max-width: 700px){
+        display: block;
+      }
+
+    }
+  @media (max-width: 700px) {
+    display: ${(props) => props.theme};
+  }
+
 `;
+
+
 
 const NavHeader = styled.div`
   /* background-color: red; */
@@ -588,14 +699,22 @@ const NavHeader = styled.div`
         border-radius: 2px;
       }
       .icon {
-        pointer-events: "none";
+        pointer-events: none;
+      }
+      @media (max-width: 700px) {
+        margin-right: 12px;
+        margin-top: 8px;
       }
     }
+
   }
   .Drop-Menu {
     position: absolute;
     right: 0.2rem;
     top: 2.95rem;
+    @media (max-width: 700px) {
+      top: 5.35rem;
+    }
   }
   .listName {
     font-size: 30px;
@@ -608,6 +727,12 @@ const NavHeader = styled.div`
     font-weight: 500;
     line-height: 100%;
   }
+  @media (max-width: 700px) {
+    margin-left: 12px;
+    /* margin-right: 12px; */
+    /* width: 95%; */
+    /* margin-right: auto; */
+  }
 `;
 
 const Tasks = styled.div`
@@ -615,11 +740,12 @@ const Tasks = styled.div`
   flex-direction: column;
   /* justify-content: space-between; */
   /* background-color: red; */
-  height: 550px;
+  height: 700px;
   margin-top: 16px;
   margin-right: 28px;
   overflow-y: scroll;
-  
+  /* align-items: center; */
+  /* justify-content: center; */
   /* background-color: red; */
   ::-webkit-scrollbar {
     width: 8px;
@@ -639,6 +765,15 @@ const Tasks = styled.div`
     background-clip: content-box;
     background-color: #a0a0a0;
   }
+
+  @media (max-width: 700px) {
+    margin-left: 12px;
+    /* margin-right: 12px; */
+    height: 525px;
+    width: 95%;
+    /* margin-right: auto; */
+  }
+
 `;
 
 const Container = styled.div`
@@ -678,6 +813,7 @@ const TogList = styled.div`
 const Task = styled.div`
   display: flex;
   flex-direction: row;
+  
   /* background-color: blue; */
   width: 100%;
   min-height: 52px;
@@ -688,7 +824,16 @@ const Task = styled.div`
   background: rgba(78, 78, 78, 0.5);
   border-radius: 5px;
   margin-top: 8px;
-  overflow: auto;
+  /* flex-grow: 1;  */
+  /* min-width: 0; */
+
+
+  /* flex-grow: 0; */
+  /* max-width: 84vw; */
+  /* box-sizing: border-box; */
+  /* min-width: 270px; */
+  /* max-width: auto; */
+  
   /* overflow-wrap: break-word; */
   
   /* white-space:normal; */
@@ -723,8 +868,22 @@ const Task = styled.div`
   .text-in-task{
     /* align-self: auto; */
     line-height: 100%;
+    display: block;
+    /* width: auto; */
+    line-height: 100%;
     margin: 0px 4px;
-    
+    /* min-width: 100px; */
+    /* max-width: 700px; */
+    /* width: 100%; */
+    /* width: ; */
+    /* flex-grow: 0; */
+    min-width: auto;
+    max-width: 80dvw;
+    /* width: 700px; */
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    /* height: 100%; */
     /* word-break: break-all; */
 
     /* overflow: hidden; */  
@@ -759,6 +918,7 @@ const Task = styled.div`
   .check{
     display: none;
   }
+
   
   
 `;
@@ -805,6 +965,13 @@ const Addtask = styled.div`
     background-color: rgba(121, 121, 121, 0.4);
     
   }
+  @media (max-width: 700px) {
+      /* right: 51511rem; */
+      margin-left: 12px;
+    /* margin-right: 12px; */
+    /* width: 95%; */
+    /* margin-right: auto; */
+    }
 
 `;
 
@@ -855,4 +1022,8 @@ const InputName = styled.div`
     margin-right: 4px; 
     
   }
+  @media (max-width: 700px) {
+      margin-left: 12px;
+    }
+  
 `;
